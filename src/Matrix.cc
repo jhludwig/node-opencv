@@ -1510,9 +1510,6 @@ Matrix::CvtColor(const v8::Arguments& args) {
     else if (!strcmp(sTransform, "CV_BGR2HSV")) { iTransform = CV_BGR2HSV; }
     else if (!strcmp(sTransform, "CV_HSV2BGR")) { iTransform = CV_HSV2BGR; }
     //
-    else if (!strcmp(sTransform, "CV_RGB2HSV")) { iTransform = CV_RGB2HSV; }
-    else if (!strcmp(sTransform, "CV_HSV2RGB")) { iTransform = CV_HSV2RGB; }
-    //
     else if (!strcmp(sTransform, "CV_BGR2HLS")) { iTransform = CV_BGR2HLS; }
     else if (!strcmp(sTransform, "CV_HLS2BGR")) { iTransform = CV_HLS2BGR; }
     //
