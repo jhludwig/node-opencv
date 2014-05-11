@@ -1,5 +1,7 @@
 #include "OpenCV.h"
 
+#include <opencv2/photo/photo.hpp>
+
 class Matrix: public node::ObjectWrap {
   public:
 
@@ -96,6 +98,11 @@ class Matrix: public node::ObjectWrap {
     JSFUNC(PutText)
     JSFUNC(GetPerspectiveTransform) 
     JSFUNC(WarpPerspective)
+
+    JSFUNC(Inpaint)
+    JSFUNC(Denoise)
+    JSFUNC(DenoiseColored)
+
 /*
 	static Handle<Value> Val(const Arguments& args);
 	static Handle<Value> RowRange(const Arguments& args);
@@ -125,6 +132,9 @@ class Matrix: public node::ObjectWrap {
     static Handle<Value> StepOne(const Arguments& args);
     static Handle<Value> GetPerspectiveTransform(const Arguments& args);
     static Handle<Value> WarpPerspective(const Arguments& args);
+    static Handle<Value> Inpaint(const Arguments& args);
+    static Handle<Value> Denoise(const Arguments& args);
+    static Handle<Value> DenoiseColored(const Arguments& args);
 
 */
 
