@@ -1333,11 +1333,9 @@ Matrix::inRange(const v8::Arguments& args) {
 		lowerb = setColor(args_lowerb);
 		upperb = setColor(args_upperb);
 
-        Local<Object> im_h = Matrix::constructor->GetFunction()->NewInstance();
-        Matrix *mask = ObjectWrap::Unwrap<Matrix>(im_h);
-        mask->mat = self->mat.clone();
-		cv::inRange(self->mat, lowerb, upperb, mask->mat);
-		mask->mat.copyTo(self->mat);
+		cv::Mat mask;
+		cv::inRange(self->mat, lowerb, upperb, mask);
+		mask.copyTo(self->mat);
 	}
 
 
@@ -1533,6 +1531,7 @@ Matrix::CvtColor(const v8::Arguments& args) {
     }
 
     cv::cvtColor(self->mat, res, iTransform);
+
 
     res.copyTo(self->mat);
 
