@@ -2,6 +2,7 @@
 
 #include <opencv2/photo/photo.hpp>
 
+
 class Matrix: public node::ObjectWrap {
   public:
 
