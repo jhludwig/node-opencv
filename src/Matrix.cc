@@ -1492,7 +1492,6 @@ Matrix::CvtColor(const v8::Arguments& args) {
     HandleScope scope;
 
     Matrix * self = ObjectWrap::Unwrap<Matrix>(args.This());
-    cv::Mat res;
 
     v8::String::Utf8Value str (args[0]->ToString());
     std::string str2 = std::string(*str);
@@ -1530,10 +1529,7 @@ Matrix::CvtColor(const v8::Arguments& args) {
 			"Conversion code is unsupported")));
     }
 
-    cv::cvtColor(self->mat, res, iTransform);
-
-
-    res.copyTo(self->mat);
+    cv::cvtColor(self->mat, self->mat, iTransform);
 
     return scope.Close(Undefined());
 }
