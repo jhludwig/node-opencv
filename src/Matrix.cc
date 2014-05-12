@@ -107,6 +107,7 @@ Matrix::Init(Handle<Object> target) {
     NODE_SET_PROTOTYPE_METHOD(constructor, "inpaint", Inpaint);
     NODE_SET_PROTOTYPE_METHOD(constructor, "denoise", Denoise);
     NODE_SET_PROTOTYPE_METHOD(constructor, "denoiseColored", DenoiseColored);
+    NODE_SET_PROTOTYPE_METHOD(constructor, "multiplyScalar", MultiplyScalar);
 
 	NODE_SET_METHOD(constructor, "Eye", Eye);
 
@@ -1811,6 +1812,16 @@ Matrix::WarpPerspective(const v8::Arguments& args) {
 
     ~self->mat;
     self->mat = res;
+
+    return scope.Close(v8::Null());
+}
+
+Handle<Value>
+Matrix::MultiplyScalar(const v8::Arguments& args) {
+    SETUP_FUNCTION(Matrix)
+
+    double factor = args[0]->NumberValue();
+    self->mat *= factor;
 
     return scope.Close(v8::Null());
 }

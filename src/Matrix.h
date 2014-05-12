@@ -102,6 +102,7 @@ class Matrix: public node::ObjectWrap {
     JSFUNC(Inpaint)
     JSFUNC(Denoise)
     JSFUNC(DenoiseColored)
+    JSFUNC(MultiplyScalar)
 
 /*
 	static Handle<Value> Val(const Arguments& args);
@@ -135,6 +136,7 @@ class Matrix: public node::ObjectWrap {
     static Handle<Value> Inpaint(const Arguments& args);
     static Handle<Value> Denoise(const Arguments& args);
     static Handle<Value> DenoiseColored(const Arguments& args);
+    static Handle<Value> MultiplyScalar(const Arguments& args);
 
 */
 
