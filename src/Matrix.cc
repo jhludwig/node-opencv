@@ -108,8 +108,8 @@ Matrix::Init(Handle<Object> target) {
     NODE_SET_PROTOTYPE_METHOD(constructor, "denoise", Denoise);
     NODE_SET_PROTOTYPE_METHOD(constructor, "denoiseColored", DenoiseColored);
     NODE_SET_PROTOTYPE_METHOD(constructor, "multiplyScalar", MultiplyScalar);
-    NODE_SET_PROTOTYPE_METHOD(constructor, "CopyWithMask", CopyWithMask);
-    NODE_SET_PROTOTYPE_METHOD(constructor, "SetWithMask", CopyWithMask);
+    NODE_SET_PROTOTYPE_METHOD(constructor, "copyWithMask", CopyWithMask);
+    NODE_SET_PROTOTYPE_METHOD(constructor, "setWithMask", CopyWithMask);
 
 	NODE_SET_METHOD(constructor, "Eye", Eye);
 
