@@ -67,6 +67,7 @@ Matrix::Init(Handle<Object> target) {
 	NODE_SET_PROTOTYPE_METHOD(constructor, "absDiff", AbsDiff);
 	NODE_SET_PROTOTYPE_METHOD(constructor, "addWeighted", AddWeighted);
 	NODE_SET_PROTOTYPE_METHOD(constructor, "bitwiseXor", BitwiseXor);
+    NODE_SET_PROTOTYPE_METHOD(constructor, "bitwiseNot", BitwiseNot);
 	NODE_SET_PROTOTYPE_METHOD(constructor, "countNonZero", CountNonZero);
 	NODE_SET_PROTOTYPE_METHOD(constructor, "canny", Canny);
 	NODE_SET_PROTOTYPE_METHOD(constructor, "dilate", Dilate);
@@ -1914,6 +1915,19 @@ Matrix::MeanWithMask(const v8::Arguments& args) {
     arr->Set(2, Number::New( means[2] ));
 
     return scope.Close(arr);
+}
+
+Handle<Value>
+Matrix::BitwiseNot(const v8::Arguments& args) {
+    HandleScope scope;
+
+    Matrix *self = ObjectWrap::Unwrap<Matrix>(args.This());
+
+    Matrix *dst = ObjectWrap::Unwrap<Matrix>(args[0]->ToObject());
+
+    cv::bitwise_not(self->mat, dst->mat);
+
+    return scope.Close(v8::Null());
 }
 
 
