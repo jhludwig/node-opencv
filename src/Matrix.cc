@@ -109,7 +109,8 @@ Matrix::Init(Handle<Object> target) {
     NODE_SET_PROTOTYPE_METHOD(constructor, "denoiseColored", DenoiseColored);
     NODE_SET_PROTOTYPE_METHOD(constructor, "multiplyScalar", MultiplyScalar);
     NODE_SET_PROTOTYPE_METHOD(constructor, "copyWithMask", CopyWithMask);
-    NODE_SET_PROTOTYPE_METHOD(constructor, "setWithMask", CopyWithMask);
+    NODE_SET_PROTOTYPE_METHOD(constructor, "setWithMask", SetWithMask);
+    NODE_SET_PROTOTYPE_METHOD(constructor, "meanWithMask", MeanWithMask);
 
 	NODE_SET_METHOD(constructor, "Eye", Eye);
 
@@ -1882,6 +1883,7 @@ Matrix::CopyWithMask(const v8::Arguments& args) {
     return scope.Close(Undefined());
 }
 
+
 Handle<Value>
 Matrix::SetWithMask(const v8::Arguments& args) {
     SETUP_FUNCTION(Matrix)
@@ -1894,6 +1896,24 @@ Matrix::SetWithMask(const v8::Arguments& args) {
     self->mat.setTo(newvalue,mask->mat);
 
     return scope.Close(Undefined());
+}
+
+Handle<Value>
+Matrix::MeanWithMask(const v8::Arguments& args) {
+    SETUP_FUNCTION(Matrix)
+    
+    // param 0 - mask. same size as src and dest
+    Matrix *mask = ObjectWrap::Unwrap<Matrix>(args[0]->ToObject());
+
+    // v8::Local<v8::Array> arr = v8::Array::New(self->mat.channels());
+
+    cv::Scalar means = cv::mean(self->mat, mask->mat);
+    v8::Local<v8::Array> arr = v8::Array::New(3);
+    arr->Set(0, Number::New( means[0] ));
+    arr->Set(1, Number::New( means[1] ));
+    arr->Set(2, Number::New( means[2] ));
+
+    return scope.Close(arr);
 }
 
 

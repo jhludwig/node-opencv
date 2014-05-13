@@ -105,6 +105,7 @@ class Matrix: public node::ObjectWrap {
     JSFUNC(MultiplyScalar)
     JSFUNC(CopyWithMask)
     JSFUNC(SetWithMask)
+    JSFUNC(MeanWithMask)
 
 /*
 	static Handle<Value> Val(const Arguments& args);
@@ -141,6 +142,7 @@ class Matrix: public node::ObjectWrap {
     static Handle<Value> MultiplyScalar(const Arguments& args);
     static Handle<Value> CopyWithMask(const Arguments& args);
     static Handle<Value> SetWithMask(const Arguments& args);
+    static Handle<Value> MeanWithMask(const Arguments& args);
 
 */
 
