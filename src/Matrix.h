@@ -104,6 +104,7 @@ class Matrix: public node::ObjectWrap {
     JSFUNC(DenoiseColored)
     JSFUNC(MultiplyScalar)
     JSFUNC(CopyWithMask)
+    JSFUNC(SetWithMask)
 
 /*
 	static Handle<Value> Val(const Arguments& args);
@@ -139,6 +140,7 @@ class Matrix: public node::ObjectWrap {
     static Handle<Value> DenoiseColored(const Arguments& args);
     static Handle<Value> MultiplyScalar(const Arguments& args);
     static Handle<Value> CopyWithMask(const Arguments& args);
+    static Handle<Value> SetWithMask(const Arguments& args);
 
 */
 

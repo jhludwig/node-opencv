@@ -109,6 +109,7 @@ Matrix::Init(Handle<Object> target) {
     NODE_SET_PROTOTYPE_METHOD(constructor, "denoiseColored", DenoiseColored);
     NODE_SET_PROTOTYPE_METHOD(constructor, "multiplyScalar", MultiplyScalar);
     NODE_SET_PROTOTYPE_METHOD(constructor, "CopyWithMask", CopyWithMask);
+    NODE_SET_PROTOTYPE_METHOD(constructor, "SetWithMask", CopyWithMask);
 
 	NODE_SET_METHOD(constructor, "Eye", Eye);
 
@@ -1877,6 +1878,20 @@ Matrix::CopyWithMask(const v8::Arguments& args) {
     Matrix *mask = ObjectWrap::Unwrap<Matrix>(args[1]->ToObject());
 
     self->mat.copyTo(dest->mat,mask->mat);
+
+    return scope.Close(Undefined());
+}
+
+Handle<Value>
+Matrix::SetWithMask(const v8::Arguments& args) {
+    SETUP_FUNCTION(Matrix)
+    
+    // param 0 - target value:
+    int newvalue = args[0]->IntegerValue();
+    // param 1 - mask. same size as src and dest
+    Matrix *mask = ObjectWrap::Unwrap<Matrix>(args[1]->ToObject());
+
+    self->mat.setTo(newvalue,mask->mat);
 
     return scope.Close(Undefined());
 }
