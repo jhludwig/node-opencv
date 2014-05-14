@@ -1890,11 +1890,16 @@ Matrix::SetWithMask(const v8::Arguments& args) {
     SETUP_FUNCTION(Matrix)
     
     // param 0 - target value:
-    int newvalue = args[0]->IntegerValue();
+    Local<Object> valArray = args[0]->ToObject();
+    cv::Scalar newvals;
+    newvals.val[0] = valArray->Get(0)->NumberValue();
+    newvals.val[1] = valArray->Get(1)->NumberValue();
+    newvals.val[2] = valArray->Get(2)->NumberValue();
+
     // param 1 - mask. same size as src and dest
     Matrix *mask = ObjectWrap::Unwrap<Matrix>(args[1]->ToObject());
 
-    self->mat.setTo(newvalue,mask->mat);
+    self->mat.setTo(newvals,mask->mat);
 
     return scope.Close(Undefined());
 }
