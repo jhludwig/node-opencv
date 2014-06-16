@@ -113,6 +113,8 @@ Matrix::Init(Handle<Object> target) {
     NODE_SET_PROTOTYPE_METHOD(constructor, "copyWithMask", CopyWithMask);
     NODE_SET_PROTOTYPE_METHOD(constructor, "setWithMask", SetWithMask);
     NODE_SET_PROTOTYPE_METHOD(constructor, "meanWithMask", MeanWithMask);
+    NODE_SET_PROTOTYPE_METHOD(constructor, "copyMakeBorder", CopyMakeBorder);
+    NODE_SET_PROTOTYPE_METHOD(constructor, "shift", Shift);
 
 	NODE_SET_METHOD(constructor, "Eye", Eye);
 
@@ -647,7 +649,7 @@ Matrix::Line(const Arguments& args) {
 		int x2 = xy2->Get(0)->IntegerValue();
 		int y2 = xy2->Get(1)->IntegerValue();
 
-		int thickness = 1;
+		int thickness = 20;
 
 		if(args[3]->IntegerValue())
 			thickness = args[3]->IntegerValue();
@@ -1949,5 +1951,88 @@ Matrix::BitwiseAnd(const v8::Arguments& args) {
 
     return scope.Close(v8::Null());
 }
+
+Handle<Value>
+Matrix::CopyMakeBorder(const v8::Arguments& args) {
+    SETUP_FUNCTION(Matrix)
+
+    Matrix *dst = ObjectWrap::Unwrap<Matrix>(args[0]->ToObject());
+    
+    int top = args[1]->IntegerValue();
+    int bottom = args[2]->IntegerValue();
+    int left = args[3]->IntegerValue();
+    int right = args[4]->IntegerValue();
+    int borderType = cv::BORDER_REPLICATE;
+
+    cv::copyMakeBorder(self->mat, dst->mat, top, bottom, left, right, borderType, 0);
+
+    return scope.Close(v8::Null());
+}
+
+
+Handle<Value>
+Matrix::Shift(const v8::Arguments& args){
+  SETUP_FUNCTION(Matrix)
+
+  cv::Mat res;
+
+  double tx = args[0]->NumberValue();
+  double ty = args[1]->NumberValue();
+
+  // split the shift into integer and subpixel components
+  cv::Point2i deltai(ceil(tx), ceil(ty));
+  cv::Point2f deltasub(fabs(tx - deltai.x), fabs(ty - deltai.y));
+
+  int fill=cv::BORDER_REPLICATE;
+  cv::Scalar value=cv::Scalar(0,0,0,0);
+
+  // INTEGER SHIFT
+  // first create a border around the parts of the Mat that will be exposed
+  int t = 0, b = 0, l = 0, r = 0;
+  if (deltai.x > 0) l =  deltai.x;
+  if (deltai.x < 0) r = -deltai.x;
+  if (deltai.y > 0) t =  deltai.y;
+  if (deltai.y < 0) b = -deltai.y;
+  cv::Mat padded;
+  cv::copyMakeBorder(self->mat, padded, t, b, l, r, fill, value);
+
+  // // SUBPIXEL SHIFT
+  // float eps = std::numeric_limits<float>::epsilon();
+  // if (deltasub.x > eps || deltasub.y > eps) {
+  //       switch (src.depth()) {
+  //           case CV_32F:
+  //           {
+  //               cv::Matx<float, 1, 2> dx(1-deltasub.x, deltasub.x);
+  //               cv::Matx<float, 2, 1> dy(1-deltasub.y, deltasub.y);
+  //               sepFilter2D(padded, padded, -1, dx, dy, cv::Point(0,0), 0, cv::BORDER_CONSTANT);
+  //               break;
+  //           }
+  //           case CV_64F:
+  //           {
+  //               cv::Matx<double, 1, 2> dx(1-deltasub.x, deltasub.x);
+  //               cv::Matx<double, 2, 1> dy(1-deltasub.y, deltasub.y);
+  //               sepFilter2D(padded, padded, -1, dx, dy, cv::Point(0,0), 0, cv::BORDER_CONSTANT);
+  //               break;
+  //           }
+  //           default:
+  //           {
+  //               cv::Matx<float, 1, 2> dx(1-deltasub.x, deltasub.x);
+  //               cv::Matx<float, 2, 1> dy(1-deltasub.y, deltasub.y);
+  //               padded.convertTo(padded, CV_32F);
+  //               sepFilter2D(padded, padded, CV_32F, dx, dy, cv::Point(0,0), 0, cv::BORDER_CONSTANT);
+  //               break;
+  //           }
+  //       }
+  //   }
+
+  // construct the region of interest around the new matrix
+  cv::Rect roi = cv::Rect(std::max(-deltai.x,0),std::max(-deltai.y,0),0,0) + self->mat.size();
+  res = padded(roi);
+  ~self->mat;
+  self->mat = res;
+
+  return scope.Close(Undefined());
+}
+
 
 

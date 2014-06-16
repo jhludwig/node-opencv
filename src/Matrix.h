@@ -108,6 +108,8 @@ class Matrix: public node::ObjectWrap {
     JSFUNC(CopyWithMask)
     JSFUNC(SetWithMask)
     JSFUNC(MeanWithMask)
+    JSFUNC(CopyMakeBorder)
+    JSFUNC(Shift)
 
 /*
 	static Handle<Value> Val(const Arguments& args);
