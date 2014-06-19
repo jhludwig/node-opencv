@@ -7,6 +7,7 @@
 #include "CamShift.h"
 #include "HighGUI.h"
 #include "FaceRecognizer.h"
+#include "BackgroundSubtractor.h"
 
 
 extern "C" void
@@ -23,6 +24,7 @@ init(Handle<Object> target) {
 
    #if CV_MAJOR_VERSION >= 2 && CV_MINOR_VERSION >=4
      FaceRecognizerWrap::Init(target);
+     BackgroundSubtractorWrap::Init(target);
    #endif
 
 };
