@@ -106,9 +106,9 @@ Matrix::Init(Handle<Object> target) {
     NODE_SET_PROTOTYPE_METHOD(constructor, "getPerspectiveTransform", GetPerspectiveTransform); 
     NODE_SET_PROTOTYPE_METHOD(constructor, "warpPerspective", WarpPerspective);
 
-    NODE_SET_PROTOTYPE_METHOD(constructor, "inpaint", Inpaint);
-    NODE_SET_PROTOTYPE_METHOD(constructor, "denoise", Denoise);
-    NODE_SET_PROTOTYPE_METHOD(constructor, "denoiseColored", DenoiseColored);
+    // NODE_SET_PROTOTYPE_METHOD(constructor, "inpaint", Inpaint);
+    // NODE_SET_PROTOTYPE_METHOD(constructor, "denoise", Denoise);
+    // NODE_SET_PROTOTYPE_METHOD(constructor, "denoiseColored", DenoiseColored);
     NODE_SET_PROTOTYPE_METHOD(constructor, "multiplyScalar", MultiplyScalar);
     NODE_SET_PROTOTYPE_METHOD(constructor, "copyWithMask", CopyWithMask);
     NODE_SET_PROTOTYPE_METHOD(constructor, "setWithMask", SetWithMask);
@@ -1833,45 +1833,45 @@ Matrix::MultiplyScalar(const v8::Arguments& args) {
     return scope.Close(v8::Null());
 }
 
-Handle<Value>
-Matrix::Inpaint(const v8::Arguments& args) {
-    SETUP_FUNCTION(Matrix)
+// Handle<Value>
+// Matrix::Inpaint(const v8::Arguments& args) {
+//     SETUP_FUNCTION(Matrix)
 
-    Matrix *inpaintMask = ObjectWrap::Unwrap<Matrix>(args[0]->ToObject());
-    double inpaintRadius = args[1]->NumberValue();
-    int flags = args[2]->IntegerValue();
+//     Matrix *inpaintMask = ObjectWrap::Unwrap<Matrix>(args[0]->ToObject());
+//     double inpaintRadius = args[1]->NumberValue();
+//     int flags = args[2]->IntegerValue();
     
-    cv::inpaint(self->mat, inpaintMask->mat, self->mat, inpaintRadius, flags);
+//     cv::inpaint(self->mat, inpaintMask->mat, self->mat, inpaintRadius, flags);
 
-    return scope.Close(v8::Null());
-}
+//     return scope.Close(v8::Null());
+// }
 
-Handle<Value>
-Matrix::Denoise(const v8::Arguments& args) {
-    SETUP_FUNCTION(Matrix)
+// Handle<Value>
+// Matrix::Denoise(const v8::Arguments& args) {
+//     SETUP_FUNCTION(Matrix)
 
-    float h = args[0]->NumberValue();
-    int templateWindowSize = args[1]->IntegerValue();
-    int searchWindowSize = args[2]->IntegerValue();
+//     float h = args[0]->NumberValue();
+//     int templateWindowSize = args[1]->IntegerValue();
+//     int searchWindowSize = args[2]->IntegerValue();
     
-    cv::fastNlMeansDenoising(self->mat, self->mat, h, templateWindowSize, searchWindowSize);
+//     cv::fastNlMeansDenoising(self->mat, self->mat, h, templateWindowSize, searchWindowSize);
 
-    return scope.Close(v8::Null());
-}
+//     return scope.Close(v8::Null());
+// }
 
-Handle<Value>
-Matrix::DenoiseColored(const v8::Arguments& args) {
-    SETUP_FUNCTION(Matrix)
+// Handle<Value>
+// Matrix::DenoiseColored(const v8::Arguments& args) {
+//     SETUP_FUNCTION(Matrix)
 
-    float h = args[0]->NumberValue();
-    float hColor = args[1]->NumberValue();
-    int templateWindowSize = args[2]->IntegerValue();
-    int searchWindowSize = args[3]->IntegerValue();
+//     float h = args[0]->NumberValue();
+//     float hColor = args[1]->NumberValue();
+//     int templateWindowSize = args[2]->IntegerValue();
+//     int searchWindowSize = args[3]->IntegerValue();
     
-    cv::fastNlMeansDenoisingColored(self->mat, self->mat, h, hColor, templateWindowSize, searchWindowSize);
+//     cv::fastNlMeansDenoisingColored(self->mat, self->mat, h, hColor, templateWindowSize, searchWindowSize);
 
-    return scope.Close(v8::Null());
-}
+//     return scope.Close(v8::Null());
+// }
 
 Handle<Value>
 Matrix::CopyWithMask(const v8::Arguments& args) {

@@ -1,6 +1,6 @@
 #include "OpenCV.h"
 
-#include <opencv2/photo/photo.hpp>
+// #include <opencv2/photo/photo.hpp>
 
 class Matrix: public node::ObjectWrap {
   public:
@@ -101,9 +101,9 @@ class Matrix: public node::ObjectWrap {
     JSFUNC(GetPerspectiveTransform) 
     JSFUNC(WarpPerspective)
 
-    JSFUNC(Inpaint)
-    JSFUNC(Denoise)
-    JSFUNC(DenoiseColored)
+    // JSFUNC(Inpaint)
+    // JSFUNC(Denoise)
+    // JSFUNC(DenoiseColored)
     JSFUNC(MultiplyScalar)
     JSFUNC(CopyWithMask)
     JSFUNC(SetWithMask)
